@@ -1,37 +1,36 @@
-# 🌟 Welcome to the `@fizzwiz/prism` Blog
+# 🌟 Welcome to the `@fizzwiz/search` Blog
 
-> **“Patterns are the building blocks of solutions.”**
+> **“Search is exploration — lazy, declarative, and infinitely flexible.”**
 
-Welcome to your go-to source for mastering the `@fizzwiz/prism` library — where elegant design meets practical execution.
-Here, we blend **deep concepts** with **hands-on examples** to show how algorithmic patterns can unlock cleaner, smarter, and more scalable code.
+Welcome to the home of **@fizzwiz/search**, where we break down the art of building powerful search processes using **lazy iteration**, **declarative expansion**, and **optional async parallelism**.
+
+Short, focused posts will guide you through how `Search` and `AsyncSearch` help you traverse large or infinite spaces with clarity and elegance.
 
 ---
 
 ## 🔍 What You’ll Discover
 
-* 🧠 **Deep Dives** – uncover the abstractions, interfaces, and design philosophies behind each core pattern.
-* 🧪 **Practical Walkthroughs** – follow real-world use cases and examples to see `pattern` in action.
-* 🚀 **Changelogs with Context** – track detailed updates with each release, highlighting new patterns and improvements.
+* 🧠 **Concept Guides** – understand lazy search, queues, traversal strategies, and declarative expansion.
+* 🛠️ **Practical Walkthroughs** – see how `Search` and `AsyncSearch` are used in real scenarios.
+* 🚀 **Release Notes** – clear, contextual updates showing what changed and why.
 
 ---
 
-## 🤝 Who This Blog is For
+## 🤝 Who This Blog Is For
 
-This blog is designed for:
+This blog is perfect for:
 
-* Developers exploring reusable algorithmic and computational patterns,
-* Contributors tracking the library’s evolution and API updates,
-* Anyone who loves expressive, structured, and maintainable code.
+* Developers exploring search strategies and lazy algorithms,
+* Engineers building async or distributed pipelines,
+* Curious minds who enjoy elegant abstractions and structured thinking.
 
-If you’re curious, thoughtful, and passionate about solving complex problems — you’ll feel right at home.
-
----
-
-## 📌 Stay Updated
-
-Fresh posts bring fresh ideas — every release is paired with clear explanations, examples, and guidance.
+If you enjoy expressive, high‑signal code — you’ll feel right at home.
 
 ---
 
-> *“Happy Patterning!”*  
+## 📌 Stay Curious
+
+New posts arrive with each release, bringing fresh insights and examples.
+
+> *“Happy Searching!”*
 > — `@fizzwiz ✨`

@@ -1,50 +1,102 @@
-# 🔺 @fizzwiz/prism
+# 🧘‍♂️ @fizzwiz/search
 
-**Solve complex problems with reusable, foundational abstractions — locally or at scale.**
+A lightweight JavaScript library for defining **declarative, lazy search algorithms**, both **synchronous** and **asynchronous**, with fluent, queue-driven iteration.
 
-`@fizzwiz/prism` provides core problem-solving abstractions that help you explore solution spaces, whether ordinary or extraordinary. Patterns can run locally or tackle complex, even potentially infinite, problem domains spanning across machines.
-
----
-
-## 🔹 Currently Supported Types
-
-- **Run** — a locally executable, focused abstraction  
-- **Search** — defines a solution as the result of exploring a potentially infinite space of candidates  
-- **AsyncSearch** — a search spanning a space distributed across multiple machines  
-
-> Learn more at [prism.blog.fizzwiz.cloud](https://prism.blog.fizzwiz.cloud) — explore the philosophy, concepts, and patterns behind the design.
+This library is ideal for exploring large or infinite search spaces efficiently and transparently, with full control over candidate generation, expansion, and concurrency.
 
 ---
 
-## 🛠️ Installation
+## Features
 
-### Node.js (ES Modules)
+* **Synchronous search** with `Search`
+* **Asynchronous search** with `AsyncSearch` (parallel or distributed)
+* Fluent, chainable API:
+
+  * Define initial candidates via `from()`
+  * Describe expansion logic via `through()`
+  * Control iteration order with `via()`
+  * Limit branching with `max()`
+  * Control concurrency (async only) with `inParallel()`
+* Fully lazy, iterable (or async iterable), suitable for memory-efficient algorithms
+* Compatible with any queue strategy (BFS, DFS, priority queues, custom)
+  
+---
+
+## 🧠 Guides & Concepts
+
+Deep-dive into practical patterns, real-world use cases, and advanced techniques:
+
+👉 https://search.blog.fizzwiz.cloud
+
+---
+
+## Installation
 
 ```bash
-npm install @fizzwiz/prism
+npm install @fizzwiz/search
 ```
-
-```js
-import { Run, Search, AsyncSearch } from '@fizzwiz/prism';
-```
-
-### Browser (via CDN)
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@fizzwiz/prism/dist/prism.bundle.js"></script>
-<script>
-  const search = new prism.Search();
-</script>
-```
-
-The global `prism` object exposes all classes.
 
 ---
 
-## 📘 Documentation
+## Usage
 
-- 📗 **API Reference**: [fizzwiz.github.io/prism](https://fizzwiz.github.io/prism)  
-  Detailed class methods, properties, and usage examples.
+### Synchronous Search
 
-- 📘 **Concepts & Guides**: [fizzwiz-prism-js.blogspot.com](https://fizzwiz-prism-js.blogspot.com)  
-  Tutorials, walkthroughs, and philosophy behind the abstractions.
+```js
+import { Search } from "@fizzwiz/search";
+import { ArrayQueue } from "@fizzwiz/sorted";
+
+const search = new Search()
+  .from(1, 2, 3)
+  .through(x => [x + 1, x + 2])
+  .via(new ArrayQueue());
+
+for (const candidate of search) {
+  console.log(candidate);
+}
+```
+
+### Asynchronous Search
+
+```js
+import { AsyncSearch } from "@fizzwiz/search";
+import { ArrayQueue } from "@fizzwiz/sorted";
+
+const asyncSearch = new AsyncSearch()
+  .from(1, 2, 3)
+  .through(async x => [x + 1, x + 2])
+  .via(new ArrayQueue())
+  .inParallel(4);
+
+for await (const candidate of asyncSearch) {
+  console.log(candidate);
+}
+```
+
+---
+
+## API
+
+### `Search` (synchronous)
+
+* `from(...starts)` — set initial candidates
+* `through(fn)` — define search space expansion function
+* `via(queue, max)` — set queue strategy and optional maximum queue size
+* Iterable: use `for...of` to iterate candidates lazily
+
+### `AsyncSearch` (asynchronous)
+
+* `from(...starts)` — set initial candidates (can be async iterable or promise)
+* `through(fn)` — define asynchronous expansion function
+* `via(queue, max)` — set queue strategy
+* `inParallel(cores)` — define concurrent expansion batch
+* Async iterable: use `for await...of` to iterate candidates
+
+---
+
+## 🔗 Links
+
+* 📚 [In-depth guides on the blog](https://search.blog.fizzwiz.cloud)
+* 🌐 [Bundle version for browser execution (jsDelivr)](https://cdn.jsdelivr.net/gh/fizzwiz/search/dist/search.bundle.js)
+* 💬 [GitHub Pages](https://fizzwiz.github.io/search/)
+* 🐱 [GitHub Sources](https://github.com/fizzwiz/search)

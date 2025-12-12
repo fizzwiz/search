@@ -1,15 +1,18 @@
-## 🔺 @fizzwiz/prism v0.0.0-dev.3 is there!
+## 🧘‍♂️ @fizzwiz/search v0.0.0-dev.1 is here!
 
-We’ve shipped a small but important update to **@fizzwiz/prism**! 🎉
+We’re thrilled to announce the **first prerelease** of `@fizzwiz/search`! 🎉
 
-This release removes the dependency on **@fizzwiz/sorted** to **avoid circular dependencies**, since the next version of `@fizzwiz/sorted` will depend on `@fizzwiz/prism`. 
+This library introduces **declarative lazy search abstractions**, providing two core classes — **Search** for synchronous exploration and **AsyncSearch** for asynchronous or parallel candidate space traversal.
+
+Use it to model complex, combinatorial, or infinite spaces **efficiently**, without managing iteration or queue mechanics manually.
 
 ### Learn More
 
-🧠 [Read more on the blog](https://prism.blog.fizzwiz.cloud)
+🧠 Dive deeper: [Read the blog](https://search.blog.fizzwiz.cloud)
 
 ### Get It
 
-📦 [Available on npm](https://www.npmjs.com/package/@fizzwiz/prism)
+📦 Install via npm: [@fizzwiz/search](https://www.npmjs.com/package/@fizzwiz/search)
 
-— @fizzwiz ✨
+— `@fizzwiz` ✨
+

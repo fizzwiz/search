@@ -1,8 +1,8 @@
-# ⚡ QuickStart with `@fizzwiz/prism`
+# ⚡ QuickStart with `@fizzwiz/search`
 
-> **“Get prism running in minutes.”**
+> **“Get searching in minutes.”**
 
-This QuickStart guide helps you dive straight into using the `@fizzwiz/prism` library with minimal setup, so you can start experimenting with patterns and algorithms right away.
+This QuickStart guide helps you start using the `@fizzwiz/search` library immediately — whether you’re exploring simple lazy computations or building parallel, asynchronous search processes.
 
 ---
 
@@ -11,79 +11,57 @@ This QuickStart guide helps you dive straight into using the `@fizzwiz/prism` li
 Install via npm:
 
 ```bash
-npm install @fizzwiz/prism
-```
-
-Or via yarn:
-
-```bash
-yarn add @fizzwiz/prism
+npm install @fizzwiz/search
 ```
 
 ---
 
 ## 2. Basic Usage
 
-Import a core pattern class, e.g., `Run`:
+Import and use the core `Search` class:
 
 ```javascript
-import { Run } from '@fizzwiz/prism';
-
-class MyComputation extends Run {
-    run() {
-        return 'Hello, Patterns!';
-    }
-}
-
-const result = new MyComputation().run();
-console.log(result); // Hello, Patterns!
-```
-
----
-
-## 3. Using `Search`
-
-```javascript
-import { Search } from '@fizzwiz/prism';
+import { Search } from '@fizzwiz/search';
 import { ArrayQueue } from '@fizzwiz/sorted';
 
 const search = new Search()
-    .from(1, 2, 3)
-    .through(n => [n + 1, n + 2])
-    .via(new ArrayQueue(), 10);
+  .from(1, 2, 3)
+  .through(n => [n + 1, n + 2])
+  .via(new ArrayQueue(), 10);
 
 for (const candidate of search) {
-    console.log(candidate);
+  console.log(candidate);
 }
 ```
 
-This will lazily explore your candidate space.
+This lazily expands each value using the function you provide.
 
 ---
 
-## 4. Using `AsyncSearch`
+## 3. Asynchronous Search
+
+Use `AsyncSearch` to explore spaces asynchronously or in parallel:
 
 ```javascript
-import { AsyncSearch } from '@fizzwiz/prism';
+import { AsyncSearch } from '@fizzwiz/search';
+import { ArrayQueue } from '@fizzwiz/sorted';
 
 const asyncSearch = new AsyncSearch()
-    .from(1, 2, 3)
-    .through(async n => [n + 1, n + 2])
-    .via(new ArrayQueue(), 10)
-    .inParallel(4);
+  .from(1, 2, 3)
+  .through(async n => [n + 1, n + 2])
+  .via(new ArrayQueue(), 10)
+  .inParallel(4);
 
 for await (const candidate of asyncSearch) {
-    console.log(candidate);
+  console.log(candidate);
 }
 ```
 
-This demonstrates asynchronous exploration with parallelism.
+`AsyncSearch` helps you build scalable async pipelines with concurrency control.
 
 ---
 
-## 5. Next Steps
+## 4. Next Steps
 
-* Explore `Search` for combinatorial selection problems.
-* Explore `AsyncSearch` for asynchronous searches distributed among multiple machines.
-* Check the blog for detailed API pages and pattern explanations.
-
+* Explore `Search` for graph traversal, combinatorics, and generators.
+* Explore `AsyncSearch` for distributed or parallel exploration workloads.

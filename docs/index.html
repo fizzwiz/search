@@ -43,44 +43,96 @@
 
 
     <section>
-        <article><h1>🔺 @fizzwiz/prism</h1>
-<p><strong>Solve complex problems with reusable, foundational abstractions — locally or at scale.</strong></p>
-<p><code>@fizzwiz/prism</code> provides core problem-solving abstractions that help you explore solution spaces, whether ordinary or extraordinary. Patterns can run locally or tackle complex, even potentially infinite, problem domains spanning across machines.</p>
+        <article><h1>🧘‍♂️ @fizzwiz/search</h1>
+<p>A lightweight JavaScript library for defining <strong>declarative, lazy search algorithms</strong>, both <strong>synchronous</strong> and <strong>asynchronous</strong>, with fluent, queue-driven iteration.</p>
+<p>This library is ideal for exploring large or infinite search spaces efficiently and transparently, with full control over candidate generation, expansion, and concurrency.</p>
 <hr>
-<h2>🔹 Currently Supported Types</h2>
+<h2>Features</h2>
 <ul>
-<li><strong>Run</strong> — a locally executable, focused abstraction</li>
-<li><strong>Search</strong> — defines a solution as the result of exploring a potentially infinite space of candidates</li>
-<li><strong>AsyncSearch</strong> — a search spanning a space distributed across multiple machines</li>
+<li>
+<p><strong>Synchronous search</strong> with <code>Search</code></p>
+</li>
+<li>
+<p><strong>Asynchronous search</strong> with <code>AsyncSearch</code> (parallel or distributed)</p>
+</li>
+<li>
+<p>Fluent, chainable API:</p>
+<ul>
+<li>Define initial candidates via <code>from()</code></li>
+<li>Describe expansion logic via <code>through()</code></li>
+<li>Control iteration order with <code>via()</code></li>
+<li>Limit branching with <code>max()</code></li>
+<li>Control concurrency (async only) with <code>inParallel()</code></li>
 </ul>
-<blockquote>
-<p>Learn more at <a href="https://prism.blog.fizzwiz.cloud">prism.blog.fizzwiz.cloud</a> — explore the philosophy, concepts, and patterns behind the design.</p>
-</blockquote>
+</li>
+<li>
+<p>Fully lazy, iterable (or async iterable), suitable for memory-efficient algorithms</p>
+</li>
+<li>
+<p>Compatible with any queue strategy (BFS, DFS, priority queues, custom)</p>
+</li>
+</ul>
 <hr>
-<h2>🛠️ Installation</h2>
-<h3>Node.js (ES Modules)</h3>
-<pre class="prettyprint source lang-bash"><code>npm install @fizzwiz/prism
-</code></pre>
-<pre class="prettyprint source lang-js"><code>import { Run, Search, AsyncSearch } from '@fizzwiz/prism';
-</code></pre>
-<h3>Browser (via CDN)</h3>
-<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://cdn.jsdelivr.net/npm/@fizzwiz/prism/dist/prism.bundle.js&quot;>&lt;/script>
-&lt;script>
-  const search = new prism.Search();
-&lt;/script>
-</code></pre>
-<p>The global <code>prism</code> object exposes all classes.</p>
+<h2>🧠 Guides &amp; Concepts</h2>
+<p>Deep-dive into practical patterns, real-world use cases, and advanced techniques:</p>
+<p>👉 https://search.blog.fizzwiz.cloud</p>
 <hr>
-<h2>📘 Documentation</h2>
+<h2>Installation</h2>
+<pre class="prettyprint source lang-bash"><code>npm install @fizzwiz/search
+</code></pre>
+<hr>
+<h2>Usage</h2>
+<h3>Synchronous Search</h3>
+<pre class="prettyprint source lang-js"><code>import { Search } from &quot;@fizzwiz/search&quot;;
+import { ArrayQueue } from &quot;@fizzwiz/sorted&quot;;
+
+const search = new Search()
+  .from(1, 2, 3)
+  .through(x => [x + 1, x + 2])
+  .via(new ArrayQueue());
+
+for (const candidate of search) {
+  console.log(candidate);
+}
+</code></pre>
+<h3>Asynchronous Search</h3>
+<pre class="prettyprint source lang-js"><code>import { AsyncSearch } from &quot;@fizzwiz/search&quot;;
+import { ArrayQueue } from &quot;@fizzwiz/sorted&quot;;
+
+const asyncSearch = new AsyncSearch()
+  .from(1, 2, 3)
+  .through(async x => [x + 1, x + 2])
+  .via(new ArrayQueue())
+  .inParallel(4);
+
+for await (const candidate of asyncSearch) {
+  console.log(candidate);
+}
+</code></pre>
+<hr>
+<h2>API</h2>
+<h3><code>Search</code> (synchronous)</h3>
 <ul>
-<li>
-<p>📗 <strong>API Reference</strong>: <a href="https://fizzwiz.github.io/prism">fizzwiz.github.io/prism</a><br>
-Detailed class methods, properties, and usage examples.</p>
-</li>
-<li>
-<p>📘 <strong>Concepts &amp; Guides</strong>: <a href="https://fizzwiz-prism-js.blogspot.com">fizzwiz-prism-js.blogspot.com</a><br>
-Tutorials, walkthroughs, and philosophy behind the abstractions.</p>
-</li>
+<li><code>from(...starts)</code> — set initial candidates</li>
+<li><code>through(fn)</code> — define search space expansion function</li>
+<li><code>via(queue, max)</code> — set queue strategy and optional maximum queue size</li>
+<li>Iterable: use <code>for...of</code> to iterate candidates lazily</li>
+</ul>
+<h3><code>AsyncSearch</code> (asynchronous)</h3>
+<ul>
+<li><code>from(...starts)</code> — set initial candidates (can be async iterable or promise)</li>
+<li><code>through(fn)</code> — define asynchronous expansion function</li>
+<li><code>via(queue, max)</code> — set queue strategy</li>
+<li><code>inParallel(cores)</code> — define concurrent expansion batch</li>
+<li>Async iterable: use <code>for await...of</code> to iterate candidates</li>
+</ul>
+<hr>
+<h2>🔗 Links</h2>
+<ul>
+<li>📚 <a href="https://search.blog.fizzwiz.cloud">In-depth guides on the blog</a></li>
+<li>🌐 <a href="https://cdn.jsdelivr.net/gh/fizzwiz/search/dist/search.bundle.js">Bundle version for browser execution (jsDelivr)</a></li>
+<li>💬 <a href="https://fizzwiz.github.io/search/">GitHub Pages</a></li>
+<li>🐱 <a href="https://github.com/fizzwiz/search">GitHub Sources</a></li>
 </ul></article>
     </section>
 
@@ -92,13 +144,13 @@ Tutorials, walkthroughs, and philosophy behind the abstractions.</p>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-core.html">core</a></li><li><a href="module-run.html">run</a></li><li><a href="module-search.html">search</a></li></ul><h3>Classes</h3><ul><li><a href="AsyncSearch.html">AsyncSearch</a></li><li><a href="BayesEvaluator.html">BayesEvaluator</a></li><li><a href="Evaluator.html">Evaluator</a></li><li><a href="GaussianModel.html">GaussianModel</a></li><li><a href="Interval.html">Interval</a></li><li><a href="MixtureEvaluator.html">MixtureEvaluator</a></li><li><a href="Model.html">Model</a></li><li><a href="PDistribution.html">PDistribution</a></li><li><a href="Partitioner.html">Partitioner</a></li><li><a href="PointModel.html">PointModel</a></li><li><a href="PopRace.html">PopRace</a></li><li><a href="RaceEvaluator.html">RaceEvaluator</a></li><li><a href="Rationale.html">Rationale</a></li><li><a href="Run.html">Run</a></li><li><a href="SampleGenerator.html">SampleGenerator</a></li><li><a href="Search.html">Search</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-core.html">core</a></li></ul><h3>Classes</h3><ul><li><a href="AsyncSearch.html">AsyncSearch</a></li><li><a href="Search.html">Search</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Nov 20 2025 12:56:17 GMT+0100 (Ora standard dell’Europa centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Dec 12 2025 19:48:10 GMT+0100 (Ora standard dell’Europa centrale)
 </footer>
 
 <script> prettyPrint(); </script>

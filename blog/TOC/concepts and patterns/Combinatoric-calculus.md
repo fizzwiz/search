@@ -1,100 +1,166 @@
 # 🧮 Exploring Combinatoric Calculus with `Search`
 
-The `Search` abstraction in `@fizzwiz/prism` provides a **clean, declarative approach** to generating and exploring combinatorial structures. Rather than hard-coding recursive algorithms, you can *formally describe* how permutations, combinations, power sets, and other combinatorial constructs are generated — and let the fluent search engine do the heavy lifting.
+The `Search` abstraction in **`@fizzwiz/search`** provides a clean, declarative way to generate and explore **combinatorial structures**. Instead of manually implementing recursive algorithms, you simply *describe* how candidates expand — and let the lazy search engine handle the traversal.
 
 ---
 
 ## 🧠 Concept: Combinatorics as Exploration
 
-Every combinatorial problem can be viewed as a **space of possible choices**:
+Most combinatorial problems can be understood as a **space of possible choices**:
 
-* **Permutations**: ordered sequences of elements.
-* **Combinations**: subsets without regard to order.
-* **Power sets**: all possible subsets of a set.
+* **Permutations** → ordered sequences
+* **Combinations** → unordered subsets
+* **Power sets** → all subsets
+* **Dispositions** → sequences of fixed length, repetition allowed
 
-Traditionally, each case requires a specialized algorithm, often with complex recursion. With `Search`, we express these patterns declaratively through **path expansion** — describing how one partial choice leads to the next.
+Traditionally, each one requires its own custom algorithm — often recursive, imperative, and hard to generalize.
+
+With `Search`, you model them all with a single idea:
+
+> **Start from an initial candidate, and expand it into new candidates using a declarative rule.**
 
 ---
 
 ## ⚙️ Defining a Search Process
 
-Each search is defined by three main ideas:
+Each search consists of three parts:
 
-1. **Start**: the initial state (often an empty path).
-2. **Space**: expansion logic defining how new candidates are generated.
-3. **Restriction or Completion**: a condition marking valid results.
+1. **Start** – The initial candidate (e.g., an empty array or path).
+2. **Space** – A function describing how a candidate expands.
+3. **Queue strategy** – Determines how exploration proceeds (FIFO = BFS, LIFO = DFS, priority, etc.).
 
-### Example: Generating All Paths
+### Example: Exploring All Paths
 
 ```js
-import { Search } from '@fizzwiz/prism';
+import { Search } from '@fizzwiz/search';
+import { ArrayQueue } from '@fizzwiz/queue';
 import { Path } from '@fizzwiz/fluent';
-import { ArrayQueue } from '@fizzwiz/sorted';
 
 const items = ['A', 'B', 'C'];
-const start = new Path();                   // empty Path
-const space = path => path.across(items);   // expands the path with each of the given items
-const queue = new ArrayQueue();             // FIFO queue
 
 const search = new Search()
-  .from(start)
-  .through(space)
-  .via(queue)
-
+  .from(new Path())                     // empty path
+  .through(path => path.across(items))  // expand by appending each item
+  .via(new ArrayQueue())
+  .when(p => p.length > 3, false);      // stop the infinite iteration when path.length > 3
 ```
 
-This symbolic search **defines all possible paths** without generating them immediately. They are returned as a lazy `Each` which can be restricted by any predicate: `search.which(predicate)`. Combinatorial constructs like dispositions, combinations, or power sets differ only in the **search space** and **predicate** applied.
+This defines a **lazy generator of all possible sequences** using `items`. You can filter results as they are generated:
+
+```js
+for (const path of search) {  
+  console.log(path.toArray()); // convert path (an immutable linked list) to array for easier inspection
+}
+```
 
 ---
 
-### Example: Generating All Dispositions of Length `n`
+## 📐 Combinatorics Through Declarative Constraints
+
+The magic comes from combining:
+
+* a **space expansion rule**, and
+* a **filter predicate** (`which`) to decide which candidates to emit.
+
+Below are some classical combinatorial constructions expressed declaratively.
+
+---
+
+## 🎲 Dispositions (Length `n`, repetitions allowed)
 
 ```js
 const n = 2;
-const restricted = What.as(space).if(path => path.length < n);   // expand only paths with length < n
-const predicate = path => path.length === n;                     // iterate only paths with length n
-// -> ['A', 'A'], ['A', 'B'], ['A', 'C'], ['B', 'A'], ['B', 'B'], ['B', 'C'], ['C', 'A'], ['C', 'B'], ['C', 'C']
+
+const search = new Search()
+  .from(new Path())
+  .through(path => path.across(items))               
+  .via(new ArrayQueue())
+  .when(path => path.length > n, false)
+  .which(path => path.length === n);   
+
+for (const seq of search) {
+  console.log(seq.toArray());
+}
 ```
 
-### Example: Generating All Combinations of Length `n`
+---
+
+## 🎛 Combinations (sorted, without repetition)
 
 ```js
 const n = 2;
-const restricted = What.as(space)
-  .if(path => path.length < n)
-  .sthen(paths => paths.which(path => path.length < 2 || path.prev.last <= path.last)); // enforce sorted order
 
-const predicate = path => path.length === n;
-// -> ['A', 'A'], ['A', 'B'], ['A', 'C'], ['B', 'B'], ['B', 'C'], ['C', 'C']
+const search = new Search()
+  .from(new Path())
+  .through(path => path.across(items.filter(x => !path.length || path.last < x))) 
+  .via(new ArrayQueue())
+  .which(path => path.length === n);  
+
+for (const combo of search) {  
+  console.log(combo.toArray());
+}
 ```
 
-### Example: Generating All Subsets (Power Set)
+---
+
+## 🧩 Power Set (all unique subsets)
 
 ```js
-const restricted = What.as(space)
-  .which(path => path.length < 2 || path.prev.last < path.last); // sorted paths
-const predicate = path => true; // all sorted paths
-// -> [], ['A'], ['B'], ['C'], ['A', 'B'], ['A', 'C'], ['B', 'C'], ['A', 'B', 'C']
+const search = new Search()
+  .from(new Path())
+  .through(path => path.across(items.filter(x => !path.length || path.last < x))) 
+  .via(new ArrayQueue());
+
+for (const subset of search) {  
+  console.log(subset.toArray());
+}
 ```
 
-Each variant modifies only the **expansion and filter rules**, keeping the **declarative structure** intact.
+This generates:
+
+```
+[]
+['A']
+['B']
+['C']
+['A','B']
+['A','C']
+['B','C']
+['A','B','C']
+```
+
+Fully lazy. No recursion. No intermediate arrays.
 
 ---
 
 ## 🌌 The Wonder of Search
 
-With `Search`, **complex combinatorial generation transforms into a unified, expressive pattern**. You can fluently chain transformations, apply filters, or inject custom rationales. Its **strength lies in uniformity** — whether generating trees, sequences, or subsets, you define a **formal exploration space** without managing iteration details.
+Using `@fizzwiz/search`, all these combinatorial generators share **one unified pattern**:
 
-### Key Benefits:
+1. Define one or more initial candidates.
+2. Define how candidates expand.
+3. Apply filters to shape results.
 
-* Declarative and intuitive syntax.
-* Fully lazy — candidates are generated only when needed.
-* Easily extensible to new combinatorial or filtering or transformation rules.
-* Infinite searches can be declared and stopped when a predicate is satisfied: `search.which(predicate).what()`
+**Benefits:**
+
+* Declarative and intuitive syntax
+* Fully lazy — candidates are generated only when needed
+* Uniform — permutations, combinations, power sets, and custom generators follow the same structure
+* Flexible — swap BFS for DFS or priority queues without rewriting algorithms
+* Extendable — add scoring, pruning, or stopping conditions fluently
 
 ---
 
-All examples here use the same FIFO queue, but generally the **Queue** is essential for driving the search — for instance, using a scoring function to prioritize candidates. We will explore this topic in a dedicated post.
+## Next: Priorities, Heuristics & Weighted Searches
+
+All examples above use a simple FIFO queue. But queues can also encode *strategy*, e.g.:
+
+* prioritize shorter paths
+* prioritize lexicographic order
+* score candidates with heuristics
+* prune inferior branches
+
+We'll explore this in a dedicated upcoming article.
 
 ---
 

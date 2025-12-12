@@ -4,8 +4,8 @@ module.exports = {
   entry: path.resolve(__dirname, "src/main/index.js"),
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "prism.bundle.js",
-    library: "prism",
+    filename: "search.bundle.js",
+    library: "search",
     libraryTarget: "umd"
   },
   module: {

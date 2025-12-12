@@ -1,10 +1,10 @@
 {
-  "name": "@fizzwiz/prism",
-  "version": "0.0.0-dev.3",
+  "name": "@fizzwiz/search",
+  "version": "0.0.0-dev.1",
   "description": "Abstract patterns for solving problems.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fizzwiz/prism.git"
+    "url": "https://github.com/fizzwiz/search.git"
   },
   "keywords": [
     "abstraction",
@@ -17,7 +17,7 @@
   "author": "Roberto Venditti <err3vi@gmail.com>",
   "files": [
     "README.md",
-    "dist/prism.bundle.js",
+    "dist/search.bundle.js",
     "src/main/"
   ],
   "type": "module",
@@ -30,9 +30,9 @@
     "build": "webpack --mode production"
   },
   "bugs": {
-    "url": "https://github.com/fizzwiz/prism/issues"
+    "url": "https://github.com/fizzwiz/search/issues"
   },
-  "homepage": "https://github.com/fizzwiz/prism#readme",
+  "homepage": "https://github.com/fizzwiz/search#readme",
   "directories": {
     "doc": "docs"
   },

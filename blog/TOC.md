@@ -1,22 +1,22 @@
 # 📚 Table of Contents
 
-Welcome to your comprehensive guide for the `@fizzwiz/prism` library!  
+Welcome to your comprehensive guide for the `@fizzwiz/search` library!  
 Whether you're just starting out or exploring advanced abstractions, this guide will help you navigate the documentation and resources with ease.
 
 ---
 
 ## 🚀 Getting Started
 
-- [Welcome](https://fizzwiz-prism-js.blogspot.com/p/welcome.html)  
+- [Welcome](https://search.blog.fizzwiz.cloud/p/welcome.html)  
   Overview, audience, and organizational principles behind the library.
 
-- [Quick Start](https://fizzwiz-prism-js.blogspot.com/p/quick-start.html)  
-  How to install and write your first meaningful code with `@fizzwiz/prism`.
+- [Quick Start](https://search.blog.fizzwiz.cloud/p/quick-start.html)  
+  How to install and write your first meaningful code with `@fizzwiz/search`.
 
-- [Introduction](https://fizzwiz-prism-js.blogspot.com/p/intro.html)  
+- [Introduction](https://search.blog.fizzwiz.cloud/p/intro.html)  
   The motivation, philosophy, and design goals shaping the library’s architecture.
 
-- [Contribute & Feedback](https://fizzwiz-prism-js.blogspot.com/p/contribute-feedback.html)  
+- [Contribute & Feedback](https://search.blog.fizzwiz.cloud/p/contribute-feedback.html)  
   Ways to report issues, suggest improvements, or contribute to the project.
 
 ---
@@ -25,15 +25,15 @@ Whether you're just starting out or exploring advanced abstractions, this guide 
 
 ### 🧬 Core Package: Building Blocks for Abstraction
 
-- ⚡ [Run Interface](https://fizzwiz-prism-js.blogspot.com/p/run-class.html)  
+- ⚡ [Run Interface](https://search.blog.fizzwiz.cloud/p/run-class.html)  
   Encapsulate focused, executable logic to solve specific problems.
 
-- 🧠 [Search Class](https://fizzwiz-prism-js.blogspot.com/p/search-class.html)  
+- 🧠 [Search Class](https://search.blog.fizzwiz.cloud/p/search-class.html)  
   Define a structured exploration of candidate solutions guiding refinement.
 
 ---
 
-## 🧠 Concepts & prisms
+## 🧠 Concepts & Patterns
 
 *Coming soon — check back for design principles, idioms, and best practices.*
 
@@ -47,7 +47,7 @@ Whether you're just starting out or exploring advanced abstractions, this guide 
 
 ## 📣 Releases & Updates
 
-- [📦 v0.0.0-dev.1 — Search & Run](https://fizzwiz-prism-js.blogspot.com/2025/10/v000-dev1-search-and-run.html)  
+- [📦 v0.0.0-dev.1 — Search & Run](https://search.blog.fizzwiz.cloud/2025/10/v000-dev1-search-and-run.html)  
   Initial pre-release featuring core abstractions and foundational patterns.
 
 ---

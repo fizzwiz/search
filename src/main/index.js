@@ -1,30 +1,19 @@
-import { Run } from './core/Run.js';
 import { Search } from './core/Search.js';
-import { AsyncSearch } from './search/AsyncSearch.js';
-import { PopRace } from './run/PopRace.js';
+import { AsyncSearch } from './core/AsyncSearch.js';
 
-export { Run, Search, PopRace, AsyncSearch };
+export { Search, AsyncSearch };
 
 // ─── Core Module ─────────────────────────────────────────────
 /**
  * @module core
  * @description
- * Core abstractions for the `@fizzwiz/pattern` library.
- * Includes the foundational classes for defining algorithms and problem-solving patterns.
+ * Core abstractions for the `@fizzwiz/search` library.
+ *
+ * This module exposes the central classes:
+ * - {@link Search} — synchronous lazy search algorithm
+ * - {@link AsyncSearch} — asynchronous lazy search algorithm
+ *
+ * These classes form the backbone of the library, allowing
+ * fluent and lazy exploration of candidate search spaces.
  */
 
-// ─── Run module ───────────────────────────────────────────
-/**
- * @module run
- * @description
- * Abstractions of locally executable patterns.
- * Currently empty.
- */
-
-// ─── Search module ────────────────────────────────────────
-/**
- * @module search
- * @description
- * Abstractions for lazy, declarative searches, either local or spanning multiple machines.
- * Currently empty.
- */

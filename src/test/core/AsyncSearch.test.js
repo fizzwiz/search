@@ -1,5 +1,5 @@
 import assert from "assert";
-import { AsyncSearch } from "../../main/search/AsyncSearch.js";
+import { AsyncSearch } from "../../main/core/AsyncSearch.js";
 import { ArrayQueue } from "@fizzwiz/sorted";
 
 describe("AsyncSearch", () => {
